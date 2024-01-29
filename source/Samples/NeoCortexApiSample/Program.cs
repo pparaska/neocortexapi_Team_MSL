@@ -232,6 +232,11 @@ namespace NeoCortexApiSample
 
                 totalPredictions++;
 
+                // Accuracy logic added which is based on count of matches and total predictions.
+                // Accuracy is calculated in the context of predicting the next element in a sequence.
+                // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
+                // out of the total number of predictions (totalPredictions).
+
                 double accuracy = (double)countOfMatches / totalPredictions * 100;
                 Debug.WriteLine($"Final Accuracy: {accuracy}%");
                 Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
