@@ -75,8 +75,15 @@ namespace NeoCortexApiSample
             return RunExperiment(inputBits, cfg, encoder, sequences);
         }
 
-        // <summary>
-       // </summary>
+        /// <summary>
+        /// Runs an experiment using the Hierarchical Temporal Memory (HTM) algorithm to learn and predict sequences.
+        /// </summary>
+        /// <param name="inputBits">The number of bits in the input data.</param>
+        /// <param name="cfg">The configuration settings for the HTM algorithm.</param>
+        /// <param name="encoder">The encoder used to convert raw input data into HTM-compatible input.</param>
+        /// <param name="sequences">A dictionary containing input sequences to be learned and predicted.</param>
+        /// <returns>A Predictor object containing the learned HTM layers and classifier.</returns>
+
         private Predictor RunExperiment(int inputBits, HtmConfig cfg, EncoderBase encoder, Dictionary<string, List<double>> sequences)
         {
             Stopwatch sw = new Stopwatch();

@@ -2,6 +2,7 @@ using ExcelDataReader;
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using Org.BouncyCastle.Ocsp;
 using System;
@@ -82,8 +83,12 @@ namespace NeoCortexApiSample
 
 
 
-        /* This code detects empty cell at the end of the row and it takes input from excel*/
-
+        /// <summary>
+        /// Reads a set of sequences from an Excel file, filtering values within a specified range.
+        /// The Excel file should contain numerical values in columns, and each row represents a subsequence.
+        /// Values outside the specified range (MinVal to MaxVal) are excluded from the sequences.
+        /// </summary>
+        /// <returns>A List of Lists, where each inner list represents a valid sequences.</returns>
         private static Dictionary<string, List<double>> GetInputFromExcelFile()
         {
             string filePath = Path.Combine(Environment.CurrentDirectory, "Input.xlsx");
@@ -153,9 +158,12 @@ namespace NeoCortexApiSample
         }
 
 
-
-        /* This method takes the input from Excel file */
-
+        /// <summary>
+        /// Reads a set of subsequences from an Excel file, filtering values within a specified range.
+        /// The Excel file should contain numerical values in columns, and each row represents a subsequence.
+        /// Values outside the specified range (MinVal to MaxVal) are excluded from the subsequences.
+        /// </summary>
+        /// <returns>A List of Lists, where each inner list represents a valid subsequence.</returns>
         public static List<List<double>> GetSubSequencesInputFromExcelFile()
         {
             var SubSequences = new List<List<double>>();
@@ -185,7 +193,11 @@ namespace NeoCortexApiSample
         }
 
 
-
+        /// <summary>
+        /// Predicts the next elements in a sequence using a given predictor and evaluates prediction accuracy.
+        /// </summary>
+        /// <param name="predictor">The predictor object used to make predictions.</param>
+        /// <param name="list">The input list representing a sequence of elements.</param>
         private static void PredictNextElement(Predictor predictor, List<double> list)
         {
             Debug.WriteLine("------------------------------");
@@ -236,8 +248,11 @@ namespace NeoCortexApiSample
                 // Accuracy is calculated in the context of predicting the next element in a sequence.
                 // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
                 // out of the total number of predictions (totalPredictions).
-
+                var elements = res.First().PredictedInput;
+                var elements_second_set = res.First().PredictedInput.Split('-');
                 double accuracy = (double)countOfMatches / totalPredictions * 100;
+                Debug.WriteLine($"Predicted Sequence: {elements}, predicted next element {elements_second_set.Last()} with Accuracy of {accuracy} %");
+
                 Debug.WriteLine($"Final Accuracy: {accuracy}%");
                 Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
 
