@@ -245,30 +245,37 @@ namespace NeoCortexApiSample
                 totalPredictions++;
 
                 // Accuracy logic added which is based on count of matches and total predictions.
-                // Accuracy is calculated in the context of predicting the next element in a sequence.
-                // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
-                // out of the total number of predictions (totalPredictions).
-                var elements = res.First().PredictedInput;
-                var elements_second_set = res.First().PredictedInput.Split('-');
-                double accuracy = (double)countOfMatches / totalPredictions * 100;
-                Debug.WriteLine($"Predicted Sequence: {elements}, predicted next element {elements_second_set.Last()} with Accuracy of {accuracy} %");
+                double accuracy = AccuracyCalculation(list, countOfMatches, totalPredictions, predictedSequence, predictedNextElement, predictedNextElementsList, filePath);
+                Debug.WriteLine($"Final Accuracy for elements found in predictedNextElementsList = {accuracy}%");
 
-                Debug.WriteLine($"Final Accuracy: {accuracy}%");
-                Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
-
-                // Append to file in each iteration
-                if (predictedNextElementsList != "")
-                {
-                    string line = $"Predicted Sequence: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, Final Accuracy: {accuracy}%";
-                    File.AppendAllText(filePath, line + Environment.NewLine);
-                }
-                else
-                {
-                    string line = $"Nothing is predicted, Accuracy is: {accuracy}%";
-                    File.AppendAllText(filePath, line + Environment.NewLine);
-                }
             }
+
             Debug.WriteLine("------------------------------");
+        }
+
+        // Accuracy logic added which is based on count of matches and total predictions.
+        // Accuracy is calculated in the context of predicting the next element in a sequence.
+        // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
+        // out of the total number of predictions (totalPredictions).
+        private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions, string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath)
+        {
+            double accuracy = (double)countOfMatches / totalPredictions * 100;
+            Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
+
+            // Append to file in each iteration
+            if (predictedNextElementsList != "")
+            {
+                string line = $"Predicted Sequence Number is: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, with Accuracy =: {accuracy}%";
+
+                Debug.WriteLine(line);
+                File.AppendAllText(filePath, line + Environment.NewLine);
+            }
+            else
+            {
+                string line = $"Nothing is predicted, Accuracy is: {accuracy}%";
+                File.AppendAllText(filePath, line + Environment.NewLine);
+            }
+            return accuracy;
         }
     }
 }
