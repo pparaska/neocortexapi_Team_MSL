@@ -179,7 +179,7 @@ private static double AccuracyCalculation(List<double> list, int countOfMatches,
         }
 ```
 	
-4. In [MultisequenceLearning.cs](https://github.com/pparaska/neocortexapi_Team_MSL/blob/Team_MSL/source/Samples/NeoCortexApiSample/MultisequenceLearning.cs) encoder setting is updated to the range of min-max value 0-99, for the same input validation has been introduced in [Program.cs](https://github.com/pparaska/neocortexapi_Team_MSL/blob/Team_MSL/source/Samples/NeoCortexApiSample/Program.cs),  file.
+4. In MultisequenceLearning.cs encoder setting is updated to the range of min-max value 0-99, for the same input validation has been introduced in Program.cs file.
 
 ```csharp
 		if (reader.GetDouble(i) >= MinVal && reader.GetDouble(i) <= MaxVal)
