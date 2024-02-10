@@ -23,6 +23,7 @@ For instance, when reading sequences such as 8,9,11,78,5... from an .excel file,
 2.Approach
 -------------
 ![1.png](./images/1.png)
+
 Fig.1 Schematic block diagram of the architecture
 
 Implemented a new method RunPredictionMultiSequenceExperiment, that improves the existing RunMultiSequenceLearningExperiment. 
@@ -156,6 +157,8 @@ In Program.cs file for [_PredictNextElement()_](https://github.com/pparaska/neoc
 We are exporting this accuracy result in external csv file _Final Accuracy.csv_ for each run and result is getting appended at new line.
 
 ![2.png](./images/2.png)
+
+Fig.2 Flow chart of Prediction and Accuracy Calculation steps
 
 ```csharp
 private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions, string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath)
