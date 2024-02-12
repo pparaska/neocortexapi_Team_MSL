@@ -2,6 +2,7 @@ using ExcelDataReader;
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using Org.BouncyCastle.Ocsp;
 using System;
@@ -82,8 +83,12 @@ namespace NeoCortexApiSample
 
 
 
-        /* This code detects empty cell at the end of the row and it takes input from excel*/
-
+        /// <summary>
+        /// Reads a set of sequences from an Excel file, filtering values within a specified range.
+        /// The Excel file should contain numerical values in columns, and each row represents a subsequence.
+        /// Values outside the specified range (MinVal to MaxVal) are excluded from the sequences.
+        /// </summary>
+        /// <returns>A List of Lists, where each inner list represents a valid sequences.</returns>
         private static Dictionary<string, List<double>> GetInputFromExcelFile()
         {
             string filePath = Path.Combine(Environment.CurrentDirectory, "Input.xlsx");
@@ -153,9 +158,12 @@ namespace NeoCortexApiSample
         }
 
 
-
-        /* This method takes the input from Excel file */
-
+        /// <summary>
+        /// Reads a set of subsequences from an Excel file, filtering values within a specified range.
+        /// The Excel file should contain numerical values in columns, and each row represents a subsequence.
+        /// Values outside the specified range (MinVal to MaxVal) are excluded from the subsequences.
+        /// </summary>
+        /// <returns>A List of Lists, where each inner list represents a valid subsequence.</returns>
         public static List<List<double>> GetSubSequencesInputFromExcelFile()
         {
             var SubSequences = new List<List<double>>();
@@ -185,7 +193,11 @@ namespace NeoCortexApiSample
         }
 
 
-
+        /// <summary>
+        /// Predicts the next elements in a sequence using a given predictor and evaluates prediction accuracy.
+        /// </summary>
+        /// <param name="predictor">The predictor object used to make predictions.</param>
+        /// <param name="list">The input list representing a sequence of elements.</param>
         private static void PredictNextElement(Predictor predictor, List<double> list)
         {
             Debug.WriteLine("------------------------------");
@@ -232,23 +244,38 @@ namespace NeoCortexApiSample
 
                 totalPredictions++;
 
-                double accuracy = (double)countOfMatches / totalPredictions * 100;
-                Debug.WriteLine($"Final Accuracy: {accuracy}%");
-                Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
+                // Accuracy logic added which is based on count of matches and total predictions.
+                double accuracy = AccuracyCalculation(list, countOfMatches, totalPredictions, predictedSequence, predictedNextElement, predictedNextElementsList, filePath);
+                Debug.WriteLine($"Final Accuracy for elements found in predictedNextElementsList = {accuracy}%");
 
-                // Append to file in each iteration
-                if (predictedNextElementsList != "")
-                {
-                    string line = $"Predicted Sequence: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, Final Accuracy: {accuracy}%";
-                    File.AppendAllText(filePath, line + Environment.NewLine);
-                }
-                else
-                {
-                    string line = $"Nothing is predicted, Accuracy is: {accuracy}%";
-                    File.AppendAllText(filePath, line + Environment.NewLine);
-                }
             }
+
             Debug.WriteLine("------------------------------");
+        }
+
+        // Accuracy logic added which is based on count of matches and total predictions.
+        // Accuracy is calculated in the context of predicting the next element in a sequence.
+        // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
+        // out of the total number of predictions (totalPredictions).
+        private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions, string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath)
+        {
+            double accuracy = (double)countOfMatches / totalPredictions * 100;
+            Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
+
+            // Append to file in each iteration
+            if (predictedNextElementsList != "")
+            {
+                string line = $"Predicted Sequence Number is: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, with Accuracy =: {accuracy}%";
+
+                Debug.WriteLine(line);
+                File.AppendAllText(filePath, line + Environment.NewLine);
+            }
+            else
+            {
+                string line = $"Nothing is predicted, Accuracy is: {accuracy}%";
+                File.AppendAllText(filePath, line + Environment.NewLine);
+            }
+            return accuracy;
         }
     }
 }
