@@ -4,6 +4,7 @@ using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using Org.BouncyCastle.Asn1.Tsp;
 using Org.BouncyCastle.Ocsp;
 using System;
 using System.Buffers;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
 using static NeoCortexApiSample.MultisequenceLearningTeamMSL;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -244,24 +246,47 @@ namespace NeoCortexApiSample
                 totalPredictions++;
 
                 /// Accuracy logic added which is based on count of matches and total predictions.
-                double accuracy = AccuracyCalculation(list, countOfMatches, totalPredictions, predictedSequence, predictedNextElement, predictedNextElementsList, filePath);
+                double accuracy = AccuracyCalculation(list, countOfMatches, totalPredictions);
                 Debug.WriteLine($"Final Accuracy for elements found in predictedNextElementsList = {accuracy}%");
+
+                // Write calculated accuracy to csv file
+                WriteAccuracyResultToCsvFile(predictedSequence, predictedNextElement, predictedNextElementsList, filePath, accuracy);
+
 
             }
 
             Debug.WriteLine("------------------------------");
         }
 
-        /// Accuracy logic added which is based on count of matches and total predictions.
-        /// Accuracy is calculated in the context of predicting the next element in a sequence.
-        /// The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
-        /// out of the total number of predictions (totalPredictions).
-        private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions, string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath)
+        /// <summary>
+        /// Accuracy logic added which is based on count of matches and total predictions.Accuracy is calculated in the context of predicting the next element in a sequence. The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches) out of the total number of predictions (totalPredictions).
+        /// </summary>
+        /// <param name="list">A list of double values representing the actual sequence.</param>
+        /// <param name="countOfMatches">The count of correctly predicted elements in the sequence.</param>
+        /// <param name="totalPredictions">The total number of predictions made.</param>
+        /// <param name="filePath">The file path where the results or logs can be stored.</param>
+        /// <returns>The calculated accuracy as a double value.</returns>
+        private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions)
         {
             double accuracy = (double)countOfMatches / totalPredictions * 100;
             Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
 
-            /// Append to file in each iteration
+            return accuracy;
+        }
+
+        /// <summary>
+        /// Writes the accuracy results to a CSV file, including the predicted sequence details,
+        /// predicted next element, and accuracy percentage. Appends the results to the file in each iteration.
+        /// </summary>
+        /// <param name="predictedSequence">The sequence number of the predicted sequence.</param>
+        /// <param name="predictedNextElement">The predicted next element in the sequence.</param>
+        /// <param name="predictedNextElementsList">A string representing the list of predicted next elements.</param>
+        /// <param name="filePath">The file path where the accuracy results will be written.</param>
+        /// <param name="accuracy">The accuracy percentage to be included in the result.</param>
+
+        private static void WriteAccuracyResultToCsvFile(string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath, double accuracy)
+        {
+            // Append to file in each iteration
             if (predictedNextElementsList != "")
             {
                 string line = $"Predicted Sequence Number is: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, with Accuracy =: {accuracy}%";
@@ -274,7 +299,6 @@ namespace NeoCortexApiSample
                 string line = $"Nothing is predicted, Accuracy is: {accuracy}%";
                 File.AppendAllText(filePath, line + Environment.NewLine);
             }
-            return accuracy;
         }
     }
 }
