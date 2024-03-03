@@ -32,17 +32,15 @@ namespace NeoCortexApiSample
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SpatialPatternLearning experiment = new SpatialPatternLearning();
-            //experiment.Run();
+            
+            /// Starts experiment that demonstrates how to learn spatial patterns.
+            ///SpatialPatternLearning experiment = new SpatialPatternLearning();
+            ///experiment.Run();
+            /// Starts experiment that demonstrates how to learn spatial patterns.
+            ///SequenceLearning experiment = new SequenceLearning();
+            ///experiment.Run();
 
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SequenceLearning experiment = new SequenceLearning();
-            //experiment.Run();
-
-            // This method is developed by Team_MSL to read arbitrary data from single txt file and improve CPU utilization*/
+            /// This method is developed by Team_MSL to read arbitrary data from single txt file and improve CPU utilization*/
             RunPredictionMultiSequenceExperiment();
         }
 
@@ -54,28 +52,28 @@ namespace NeoCortexApiSample
         {
             Dictionary<string, List<double>> sequences = new();
 
-            // Step 1: Retrieve sequences from an Excel file.
+            /// Step 1: Retrieve sequences from an Excel file.
             sequences = GetInputFromExcelFile();
 
-            // Step 2: Create an instance of the MultisequenceLearningTeamMSL class for the experiment.
+            /// Step 2: Create an instance of the MultisequenceLearningTeamMSL class for the experiment.
             // Prototype for building the prediction engine.
             MultisequenceLearningTeamMSL experiment = new();
 
-            // Step 3: Train the prediction engine using the provided sequences.
+            /// Step 3: Train the prediction engine using the provided sequences.
             var predictor = experiment.Run(sequences);
 
             List<List<double>> testSequences = new();
 
-            // Step 4: Retrieve test sequences from another Excel file.
+            /// Step 4: Retrieve test sequences from another Excel file.
             testSequences = GetSubSequencesInputFromExcelFile();
 
-            // Step 5: Iterate through each test sequence and make predictions.
+            /// Step 5: Iterate through each test sequence and make predictions.
             foreach (var numberList in testSequences)
             {
-                // Reset the predictor for each new test sequence.
+                /// Reset the predictor for each new test sequence.
                 predictor.Reset();
 
-                // Step 6: Make predictions for the next elements in the test sequence.
+                /// Step 6: Make predictions for the next elements in the test sequence.
                 PredictNextElement(predictor, numberList);
             }
 
@@ -151,8 +149,8 @@ namespace NeoCortexApiSample
             sequences.Add("S1", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 }));
             sequences.Add("S2", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
 
-            //
-            // Prototype for building the prediction engine.
+            
+            /// Prototype for building the prediction engine.
             MultisequenceLearningTeamMSL experiment = new MultisequenceLearningTeamMSL();
             var predictor = experiment.Run(sequences);
         }
@@ -207,7 +205,8 @@ namespace NeoCortexApiSample
             string predictedNextElement = "";
             string predictedNextElementsList = "";
 
-            // Generate file name with current date and time
+            /// Generate file name with current date and time
+			
             string fileName = string.Format("Final Accuracy ({0:dd-MM-yyyy HH-mm-ss}).csv", DateTime.Now);
             string filePath = Path.Combine(Environment.CurrentDirectory, fileName);
 
@@ -244,7 +243,7 @@ namespace NeoCortexApiSample
 
                 totalPredictions++;
 
-                // Accuracy logic added which is based on count of matches and total predictions.
+                /// Accuracy logic added which is based on count of matches and total predictions.
                 double accuracy = AccuracyCalculation(list, countOfMatches, totalPredictions, predictedSequence, predictedNextElement, predictedNextElementsList, filePath);
                 Debug.WriteLine($"Final Accuracy for elements found in predictedNextElementsList = {accuracy}%");
 
@@ -253,16 +252,16 @@ namespace NeoCortexApiSample
             Debug.WriteLine("------------------------------");
         }
 
-        // Accuracy logic added which is based on count of matches and total predictions.
-        // Accuracy is calculated in the context of predicting the next element in a sequence.
-        // The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
-        // out of the total number of predictions (totalPredictions).
+        /// Accuracy logic added which is based on count of matches and total predictions.
+        /// Accuracy is calculated in the context of predicting the next element in a sequence.
+        /// The accuracy is calculated as the percentage of correctly predicted next elements (countOfMatches)
+        /// out of the total number of predictions (totalPredictions).
         private static double AccuracyCalculation(List<double> list, int countOfMatches, int totalPredictions, string predictedSequence, string predictedNextElement, string predictedNextElementsList, string filePath)
         {
             double accuracy = (double)countOfMatches / totalPredictions * 100;
             Debug.WriteLine(string.Format("The test data list: ({0}).", string.Join(", ", list)));
 
-            // Append to file in each iteration
+            /// Append to file in each iteration
             if (predictedNextElementsList != "")
             {
                 string line = $"Predicted Sequence Number is: {predictedSequence}, Predicted Sequence: {predictedNextElementsList}, Predicted Next Element: {predictedNextElement}, with Accuracy =: {accuracy}%";

@@ -12,15 +12,15 @@ using System.Linq;
 
 namespace NeoCortexApiSample
 {
-    // <summary>
-    // Implements an experiment that demonstrates how to learn sequences.
-    // </summary>
+    /// <summary>
+    // /Implements an experiment that demonstrates how to learn sequences.
+    /// </summary>
     public class MultiSequenceLearning
     {
-        // <summary>
-        // Runs the learning of sequences.
-        // </summary>
-        // <param name="sequences">Dictionary of sequences. KEY is the sewuence name, the VALUE is th elist of element of the sequence.</param>
+        /// <summary>
+        /// Runs the learning of sequences.
+        /// </summary>
+        /// <param name="sequences">Dictionary of sequences. KEY is the sewuence name, the VALUE is th elist of element of the sequence.</param>
         public Predictor Run(Dictionary<string, List<double>> sequences)
         {
             Console.WriteLine($"Hello NeocortexApi! Experiment {nameof(MultiSequenceLearning)}");
@@ -37,7 +37,7 @@ namespace NeoCortexApiSample
                 LocalAreaDensity = -1,
                 NumActiveColumnsPerInhArea = 0.02 * numColumns,
                 PotentialRadius = (int)(0.15 * inputBits),
-                //InhibitionRadius = 15,
+                ///InhibitionRadius = 15,
 
                 MaxBoost = 10.0,
                 DutyCyclePeriod = 25,
@@ -47,11 +47,11 @@ namespace NeoCortexApiSample
                 ActivationThreshold = 15,
                 ConnectedPermanence = 0.5,
 
-                // Learning is slower than forgetting in this case.
+                /// Learning is slower than forgetting in this case.
                 PermanenceDecrement = 0.25,
                 PermanenceIncrement = 0.15,
 
-                // Used by punishing of segments.
+                /// Used by punishing of segments.
                 PredictedSegmentDecrement = 0.1
             };
 
@@ -74,9 +74,9 @@ namespace NeoCortexApiSample
             return RunExperiment(inputBits, cfg, encoder, sequences);
         }
 
-        // <summary>
-        //
-        // </summary>
+        /// <summary>
+        ///
+        /// </summary>
         private Predictor RunExperiment(int inputBits, HtmConfig cfg, EncoderBase encoder, Dictionary<string, List<double>> sequences)
         {
             Stopwatch sw = new Stopwatch();
@@ -96,21 +96,21 @@ namespace NeoCortexApiSample
 
             TemporalMemory tm = new TemporalMemory();
 
-            // For more information see following paper: https://www.scitepress.org/Papers/2021/103142/103142.pdf
+            /// For more information see following paper: https://www.scitepress.org/Papers/2021/103142/103142.pdf
             HomeostaticPlasticityController hpc = new HomeostaticPlasticityController(mem, numUniqueInputs * 150, (isStable, numPatterns, actColAvg, seenInputs) =>
             {
                 if (isStable)
-                    // Event should be fired when entering the stable state.
+                    /// Event should be fired when entering the stable state.
                     Debug.WriteLine($"STABLE: Patterns: {numPatterns}, Inputs: {seenInputs}, iteration: {seenInputs / numPatterns}");
                 else
-                    // Ideal SP should never enter unstable state after stable state.
+                    /// Ideal SP should never enter unstable state after stable state.
                     Debug.WriteLine($"INSTABLE: Patterns: {numPatterns}, Inputs: {seenInputs}, iteration: {seenInputs / numPatterns}");
 
-                // We are not learning in instable state.
+                /// We are not learning in instable state.
                 isInStableState = isStable;
 
-                // Clear active and predictive cells.
-                //tm.Reset(mem);
+                /// Clear active and predictive cells.
+                ///tm.Reset(mem);
             }, numOfCyclesToWaitOnChange: 50);
 
 
@@ -118,15 +118,15 @@ namespace NeoCortexApiSample
             sp.Init(mem);
             tm.Init(mem);
 
-            // Please note that we do not add here TM in the layer.
-            // This is omitted for practical reasons, because we first eneter the newborn-stage of the algorithm
-            // In this stage we want that SP get boosted and see all elements before we start learning with TM.
-            // All would also work fine with TM in layer, but it would work much slower.
-            // So, to improve the speed of experiment, we first ommit the TM and then after the newborn-stage we add it to the layer.
+            /// Please note that we do not add here TM in the layer.
+            /// This is omitted for practical reasons, because we first eneter the newborn-stage of the algorithm
+            /// In this stage we want that SP get boosted and see all elements before we start learning with TM.
+            /// All would also work fine with TM in layer, but it would work much slower.
+            /// So, to improve the speed of experiment, we first ommit the TM and then after the newborn-stage we add it to the layer.
             layer1.HtmModules.Add("encoder", encoder);
             layer1.HtmModules.Add("sp", sp);
 
-            //double[] inputs = inputValues.ToArray();
+            ///double[] inputs = inputValues.ToArray();
             int[] prevActiveCols = new int[0];
 
             int cycle = 0;
@@ -136,9 +136,9 @@ namespace NeoCortexApiSample
 
             int maxCycles = 3500;
 
-            //
-            // Training SP to get stable. New-born stage.
-            //
+            
+            /// Training SP to get stable. New-born stage.
+            
 
             for (int i = 0; i < maxCycles && isInStableState == false; i++)
             {
@@ -165,14 +165,14 @@ namespace NeoCortexApiSample
                 }
             }
 
-            // Clear all learned patterns in the classifier.
+            /// Clear all learned patterns in the classifier.
             cls.ClearState();
 
-            // We activate here the Temporal Memory algorithm.
+            /// We activate here the Temporal Memory algorithm.
             layer1.HtmModules.Add("tm", tm);
 
             //
-            // Loop over all sequences.
+            /// Loop over all sequences.
             foreach (var sequenceKeyPair in sequences)
             {
                 Debug.WriteLine($"-------------- Sequences {sequenceKeyPair.Key} ---------------");
@@ -183,11 +183,11 @@ namespace NeoCortexApiSample
 
                 previousInputs.Add("-1.0");
 
-                // Set on true if the system has learned the sequence with a maximum acurracy.
+                /// Set on true if the system has learned the sequence with a maximum acurracy.
                 bool isLearningCompleted = false;
 
                 //
-                // Now training with SP+TM. SP is pretrained on the given input pattern set.
+                /// Now training with SP+TM. SP is pretrained on the given input pattern set.
                 for (int i = 0; i < maxCycles; i++)
                 {
                     matches = 0;
@@ -211,11 +211,11 @@ namespace NeoCortexApiSample
                         if (previousInputs.Count > (maxPrevInputs + 1))
                             previousInputs.RemoveAt(0);
 
-                        // In the pretrained SP with HPC, the TM will quickly learn cells for patterns
-                        // In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
-                        // Which will result in returning of 4-5-6 instead of 1-2-3-4-5-6.
-                        // HtmClassifier allways return the first matching sequence. Because 4-5-6 will be as first
-                        // memorized, it will match as the first one.
+                        /// In the pretrained SP with HPC, the TM will quickly learn cells for patterns
+                        /// In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
+                        /// Which will result in returning of 4-5-6 instead of 1-2-3-4-5-6.
+                        /// HtmClassifier allways return the first matching sequence. Because 4-5-6 will be as first
+                        /// memorized, it will match as the first one.
                         if (previousInputs.Count < maxPrevInputs)
                             continue;
 
@@ -238,8 +238,8 @@ namespace NeoCortexApiSample
                         Debug.WriteLine($"Cell SDR: {Helpers.StringifyVector(actCells.Select(c => c.Index).ToArray())}");
 
                         
-                        // If the list of predicted values from the previous step contains the currently presenting value,
-                        // we have a match.
+                        /// If the list of predicted values from the previous step contains the currently presenting value,
+                        /// we have a match.
                         if (lastPredictedValues.Contains(key))
                         {
                             matches++;
@@ -250,7 +250,7 @@ namespace NeoCortexApiSample
 
                         if (lyrOut.PredictiveCells.Count > 0)
                         {
-                            //var predictedInputValue = cls.GetPredictedInputValue(lyrOut.PredictiveCells.ToArray());
+                            ///var predictedInputValue = cls.GetPredictedInputValue(lyrOut.PredictiveCells.ToArray());
                             var predictedInputValues = cls.GetPredictedInputValues(lyrOut.PredictiveCells.ToArray(), 3);
 
                             foreach (var item in predictedInputValues)
@@ -267,7 +267,7 @@ namespace NeoCortexApiSample
                         }
                     }
 
-                    // The first element (a single element) in the sequence cannot be predicted
+                    /// The first element (a single element) in the sequence cannot be predicted
                     double maxPossibleAccuraccy = (double)((double)sequenceKeyPair.Value.Count - 1) / (double)sequenceKeyPair.Value.Count * 100.0;
 
                     double accuracy = (double)matches / (double)sequenceKeyPair.Value.Count * 100.0;

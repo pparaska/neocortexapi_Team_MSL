@@ -13,15 +13,15 @@ using System.Linq;
 
 namespace NeoCortexApiSample
 {
-    // <summary>
-    // Implements an experiment that demonstrates how to learn sequences.
-    // </summary>
+    /// <summary>
+    /// Implements an experiment that demonstrates how to learn sequences.
+    /// </summary>
     public class MultisequenceLearningTeamMSL
     {
-        // <summary>
-        // Runs the learning of sequences.
-        // </summary>
-        // <param name="sequences">Dictionary of sequences. KEY is the sewuence name, the VALUE is th elist of element of the sequence.</param>
+        /// <summary>
+        /// Runs the learning of sequences.
+        /// </summary>
+        /// <param name="sequences">Dictionary of sequences. KEY is the sewuence name, the VALUE is th elist of element of the sequence.</param>
         public Predictor Run(Dictionary<string, List<double>> sequences)
         {
             Console.WriteLine($"Hello NeocortexApi! Experiment {nameof(MultiSequenceLearning)}");
@@ -213,11 +213,11 @@ namespace NeoCortexApiSample
                         if (previousInputs.Count > (maxPrevInputs + 1))
                             previousInputs.RemoveAt(0);
 
-                        // In the pretrained SP with HPC, the TM will quickly learn cells for patterns
-                        // In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
-                        // Which will result in returning of 4-5-6 instead of 1-2-3-4-5-6.
-                        // HtmClassifier allways return the first matching sequence. Because 4-5-6 will be as first
-                        // memorized, it will match as the first one.
+                        /// In the pretrained SP with HPC, the TM will quickly learn cells for patterns
+                        /// In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
+                        /// Which will result in returning of 4-5-6 instead of 1-2-3-4-5-6.
+                        /// HtmClassifier allways return the first matching sequence. Because 4-5-6 will be as first
+                        /// memorized, it will match as the first one.
                         if (previousInputs.Count < maxPrevInputs)
                             continue;
 
@@ -240,8 +240,8 @@ namespace NeoCortexApiSample
                         Debug.WriteLine($"Cell SDR: {Helpers.StringifyVector(actCells.Select(c => c.Index).ToArray())}");
 
                         
-                        // If the list of predicted values from the previous step contains the currently presenting value,
-                        // we have a match.
+                        /// If the list of predicted values from the previous step contains the currently presenting value,
+                        /// we have a match.
                         if (lastPredictedValues.Contains(key))
                         {
                             matches++;
@@ -269,10 +269,14 @@ namespace NeoCortexApiSample
                         }
                     }
 
-                    // The first element (a single element) in the sequence cannot be predicted
+                    /// The first element (a single element) in the sequence cannot be predicted
                     double maxPossibleAccuraccy = (double)((double)sequenceKeyPair.Value.Count - 1) / (double)sequenceKeyPair.Value.Count * 100.0;
 
                     double accuracy = (double)matches / (double)sequenceKeyPair.Value.Count * 100.0;
+					
+					
+					
+					
                     //Debug.WriteLine($"{sequenceKeyPair.Key} is having Accuracy: {accuracy}% ");
                     //using (var swr = new StreamWriter("Accuracy Logs.csv", true)) // the "true" flag appends to the file instead of overwriting it
                     //{
@@ -340,11 +344,11 @@ namespace NeoCortexApiSample
         }
 
 
-        // <summary>
-        // Gets the number of all unique inputs.
-        // </summary>
-        // <param name="sequences">Alle sequences.</param>
-        // <returns></returns>
+        /// <summary>
+        /// Gets the number of all unique inputs.
+        /// </summary>
+        ///<param name="sequences">Alle sequences.</param>
+        /// <returns></returns>
         private int GetNumberOfInputs(Dictionary<string, List<double>> sequences)
         {
             int num = 0;

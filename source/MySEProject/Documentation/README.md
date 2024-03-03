@@ -6,17 +6,16 @@
 **Summary of Project:**
 =======================================
 
-In our project, we tried to implement new methods in the MultisequenceLearning algorithm. 
+In our project, we have implemented new methods in the MultisequenceLearning algorithm. 
 These methods help the system grab information from specific Excel files using a special method like GetInputFromExcelFile().
-We also keep test data in another Excel file, and you can access it using GetSubSequencesInputFromExcelFile() to check smaller parts of the data later.
+We also keep test data in another Excel file, and it can access by using GetSubSequencesInputFromExcelFile() to check smaller parts of the data later.
 Algorithm handles many sequences and tests smaller parts of them, given as sequences and subSequences.
 After learning, the system predicts the next element in the test sequence and calculates how accurate the predictions are.
+GetInputFromCSVFile()method also can be implemented in the MultisequenceLearning algorithm where as .csv file is more efficient to use.
 
 1.Objective
 -------------
-
-- Illustrate the process of learning sequences and forecasting the succeeding element in a given sequence.
-- Retrieve sequences from a file and create an output file after making predictions.
+Illustrate the process of learning sequences and forecasting the succeeding element in a given sequence and retrieve sequences from a file and create an output file after making predictions.
 
 For instance, when reading sequences such as 8,9,11,78,5... from an .excel file, providing a sequence input like 8,9,11 should result in predicting the next element, which, in this case, is 78.
 
