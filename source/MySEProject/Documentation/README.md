@@ -10,7 +10,7 @@ Amid the early morning chorus of a bustling train station, I found myself mesmer
 
 The project, a beacon of innovation within the C#/.NET Core landscape, aims to emulate the remarkable pattern recognition and learning capabilities of the human brain. Enthralled by the prospect of contributing to this frontier, I envisioned creating AI systems capable of deciphering and predicting the nuanced patterns of life, from the ebbs and flows of financial markets to the subtle intricacies of human language​​.
 
-This venture wasn't merely a technical challenge; it was a journey towards pioneering an AI that mirrors the adaptability and insight of human cognition. It promised a future where technology could seamlessly anticipate and navigate the complexities of our world, making this endeavor not just a project, but a passion. To explore this fascinating intersection of technology and human-like learning, the NeocortexAPI GitHub repository offers a gateway to innovation: NeocortexAPI GitHub repository.
+This venture wasn't merely a technical challenge; it was a journey towards pioneering an AI that mirrors the adaptability and insight of human cognition. It promised a future where technology could seamlessly anticipate and navigate the complexities of our world, making this endeavor not just a project, but a passion. To explore this fascinating intersection of technology and human-like learning, the NeocortexAPI GitHub repository offers a gateway to innovation.
 
 1.Objective
 -------------
