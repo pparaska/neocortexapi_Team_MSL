@@ -6,12 +6,11 @@
 **Summary of Project:**
 =======================================
 
-In our project, we have implemented new methods in the MultisequenceLearning algorithm. 
-These methods help the system grab information from specific Excel files using a special method like GetInputFromExcelFile().
-We also keep test data in another Excel file, and it can access by using GetSubSequencesInputFromExcelFile() to check smaller parts of the data later.
-Algorithm handles many sequences and tests smaller parts of them, given as sequences and subSequences.
-After learning, the system predicts the next element in the test sequence and calculates how accurate the predictions are.
-GetInputFromCSVFile()method also can be implemented in the MultisequenceLearning algorithm where as .csv file is more efficient to use.
+Amid the early morning chorus of a bustling train station, I found myself mesmerized by the intricate dance of commuters, a living tapestry of movement and routine. Each arrival and departure, each hurried step and paused goodbye, played out like a complex sequence, echoing the vast network of thoughts and memories within the human neocortex. This moment of clarity, amidst the chaos, became the catalyst for my deep dive into the NeocortexAPI's multisequence learning project.
+
+The project, a beacon of innovation within the C#/.NET Core landscape, aims to emulate the remarkable pattern recognition and learning capabilities of the human brain. Enthralled by the prospect of contributing to this frontier, I envisioned creating AI systems capable of deciphering and predicting the nuanced patterns of life, from the ebbs and flows of financial markets to the subtle intricacies of human language​​.
+
+This venture wasn't merely a technical challenge; it was a journey towards pioneering an AI that mirrors the adaptability and insight of human cognition. It promised a future where technology could seamlessly anticipate and navigate the complexities of our world, making this endeavor not just a project, but a passion. To explore this fascinating intersection of technology and human-like learning, the NeocortexAPI GitHub repository offers a gateway to innovation: NeocortexAPI GitHub repository.
 
 1.Objective
 -------------
