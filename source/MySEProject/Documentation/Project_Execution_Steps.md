@@ -6,7 +6,7 @@ Open the sln and select MultiSequenceLearningTeamMSL as startup project.
 
 ### To run the experiment:
 
-Keep ypu Input.xlsx file and Subsequence_input.xlsx file in Environment.CurrentDirectory
+Keep your Input.xlsx file and Subsequence_input.xlsx file in Environment.CurrentDirectory and run the project
 
 ![Current_Working_Directory_Input.JPG](./images/Current_Working_Directory_Input.JPG)
 
