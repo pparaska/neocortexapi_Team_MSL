@@ -17,7 +17,7 @@ For instance, when reading sequences such as 8,9,11,78,5... from an .excel file,
 
 2.Approach
 -------------
-![1.png](./images/1.png)
+![1.png](./images/Architecture.jpg)
 
 Fig.1 Schematic block diagram of the architecture
 
