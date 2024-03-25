@@ -1,8 +1,5 @@
 # Project Title: ML22/23-15 Approve Prediction of Multisequence Learning.
 
-#### Group Name: Team_MSL
-
-
 **Summary of Project:**
 =======================================
 
@@ -189,3 +186,7 @@ private static double AccuracyCalculation(List<double> list, int countOfMatches,
                  }
 ```
 
+4.How to run this project:
+---------------------------------------
+- To run this project team has created a separate Project_Execution_Steps.md file.
+- Please follow the steps mentioned here to run the project - [Project_Execution_Steps.md](https://github.com/pparaska/neocortexapi_Team_MSL/blob/Team_MSL/source/MySEProject/Documentation/Project_Execution_Steps.md)
