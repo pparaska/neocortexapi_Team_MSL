@@ -151,7 +151,7 @@ In Program.cs file for [_PredictNextElement()_](https://github.com/pparaska/neoc
 3. Accuracy is getting calculated by increasing the matches (which is counter), this counter is getting incremented by comparing the next appearing value with the last predicted value. These matches are getting divided by total number of predictions. 
 We are exporting this accuracy result in external csv file _Final Accuracy.csv_ for each run and result is getting appended at new line.
 
-![2.png](./images/2.png)
+![2.png](./images/2.jpg)
 
 Fig.2 Flow chart of Prediction and Accuracy Calculation steps
 
