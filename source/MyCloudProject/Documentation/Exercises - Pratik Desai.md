@@ -1,5 +1,5 @@
-# Lesson 1
-## _Exercise 1_
+# Exercise 1
+
 # Task List
 
 1. Unlock Azure Subscription
